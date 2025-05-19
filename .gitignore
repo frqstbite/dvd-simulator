@@ -1,6 +1,11 @@
-# Project place file
-/dvd-simulator.rbxlx
-
 # Roblox Studio lock files
-/*.rbxlx.lock
-/*.rbxl.lock
+*.rbxlx.lock
+*.rbxl.lock
+
+# Project artifacts
+Packages
+sourcemap.json
+*.sourcemap.json
+*.rbxm
+*.rbxl
+*.rbxlx
