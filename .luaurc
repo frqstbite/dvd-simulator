@@ -1,0 +1,8 @@
+{
+	"aliases": {
+		"lune": "~/.lune/.typedefs/0.8.9/"
+	},
+	"lint": {
+		"LocalShadow": false
+	}
+}
