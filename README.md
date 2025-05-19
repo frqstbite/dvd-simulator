@@ -1,2 +1,2 @@
 # dvd-simulator
-I can't believe I'm doing this
+watch the dvd logo bounce until your eyes bleed
