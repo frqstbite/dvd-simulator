@@ -1,0 +1,25 @@
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  publish:
+    name: Publish to Roblox
+    runs-on: ubuntu-latest
+    steps:
+    
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - uses: CompeyDev/setup-rokit@v0.1.2
+    
+    - name: Install runtime packages
+      run: lune run install
+      
+    - name: Publish to Roblox using Rojo CLI
+      run: rojo upload . --api_key "$API" --universe_id "$UNIVERSE" --asset_id "$PLACE"
+      env:
+        API: ${{ secrets.ROBLOX_API }}
+        UNIVERSE: ${{ secrets.ROBLOX_UNIVERSE }}
+        PLACE: ${{ secrets.ROBLOX_PLACE }}
