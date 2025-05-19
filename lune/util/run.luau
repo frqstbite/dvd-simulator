@@ -1,4 +1,4 @@
-local process = require "@lune/process"
+local proc = require "@lune/process"
 local stdio = require "@lune/stdio"
 
 type Options = {
@@ -11,7 +11,7 @@ local function run(program: string, params: { string }, options: Options?)
 	print(`> {program} {table.concat(params, " ")}`)
 	stdio.write(stdio.style("reset"))
 
-	local result = process.spawn(program, params, {
+	local result = proc.create(program, params, {
 		stdio = "inherit",
 		shell = true,
 		cwd = if options then options.cwd else nil,
@@ -19,7 +19,7 @@ local function run(program: string, params: { string }, options: Options?)
 	})
 
 	local out = if result.ok then result.stdout else result.stderr
-	return out:gsub("\n$", ""), result.ok
+	return out:readToEnd():gsub("\n$", ""), result.ok
 end
 
 return run
