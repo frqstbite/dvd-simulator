@@ -1,25 +1,33 @@
 on:
   push:
     branches:
-    - main
+      - main
 
 jobs:
   publish:
     name: Publish to Roblox
     runs-on: ubuntu-latest
     steps:
-    
-    - name: Checkout
-      uses: actions/checkout@v4
-      
-    - uses: CompeyDev/setup-rokit@v0.1.2
-    
-    - name: Install runtime packages
-      run: lune run install
-      
-    - name: Publish to Roblox using Rojo CLI
-      run: rojo upload . --api_key "$API" --universe_id "$UNIVERSE" --asset_id "$PLACE"
-      env:
-        API: ${{ secrets.ROBLOX_API }}
-        UNIVERSE: ${{ secrets.ROBLOX_UNIVERSE }}
-        PLACE: ${{ secrets.ROBLOX_PLACE }}
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup rokit
+        run: |
+          curl -sSf https://raw.githubusercontent.com/rojo-rbx/rokit/main/scripts/install.sh | bash
+          ~/.rokit/bin/rokit install --no-trust-check
+
+      - name: Install packages
+        run: ~/.rokit/bin/wally install
+
+      - name: Build
+        uses: CompeyDev/rojo-build-action@0.1.5
+        with:
+          output: build
+
+      - name: Upload
+        uses: Ulferno/upload-to-roblox@v1.0.4
+        with:
+          api-key: ${{ secrets.ROBLOX_API }}
+          universeId: ${{ secrets.ROBLOX_UNIVERSE }}
+          placeId: ${{ secrets.ROBLOX_PLACE }}
+          file: build.rbxlx
